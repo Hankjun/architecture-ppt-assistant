@@ -10,14 +10,14 @@
     html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: #141413; color: #faf9f5;
+      background: #faf9f5; color: #141413;
       -webkit-font-smoothing: antialiased;
     }
     .slide {
       min-height: 100vh; padding: 4rem 3rem;
       display: flex; flex-direction: column; justify-content: center;
       scroll-snap-align: start;
-      border-bottom: 1px solid #30302e;
+      border-bottom: 1px solid #e8e6dc;
       max-width: 960px; margin: 0 auto;
     }
     .slide:last-child { border-bottom: none; }
@@ -28,12 +28,12 @@
     .slide h1 {
       font-family: Georgia, 'Times New Roman', Times, serif;
       font-size: clamp(2rem,4vw,3.5rem); font-weight: 500;
-      line-height: 1.15; color: #faf9f5; margin-bottom: 0.75rem;
+      line-height: 1.15; color: #141413; margin-bottom: 0.75rem;
     }
     .slide h2 {
       font-family: Georgia, 'Times New Roman', Times, serif;
       font-size: clamp(1.4rem,2.5vw,2rem); font-weight: 500;
-      line-height: 1.25; color: #faf9f5; margin-bottom: 0.75rem;
+      line-height: 1.25; color: #141413; margin-bottom: 0.75rem;
     }
     .slide h3 {
       font-family: Georgia, 'Times New Roman', Times, serif;
@@ -47,21 +47,21 @@
     .accent-line { width: 40px; height: 3px; background: #c96442; margin: 1.5rem auto; border-radius: 2px; }
     .toc-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
     .toc-list li { font-size: 1.05rem; color: #87867f; cursor: default; transition: color 0.2s; }
-    .toc-list li:hover { color: #faf9f5; }
+    .toc-list li:hover { color: #141413; }
     .stat-grid {
       display: grid; grid-template-columns: repeat(4,1fr);
-      gap: 1px; background: #30302e; border-radius: 10px; overflow: hidden;
+      gap: 1px; background: #e8e6dc; border-radius: 10px; overflow: hidden;
       margin-top: 2rem; max-width: 600px;
     }
-    .stat-grid .stat { background: #1a1a19; padding: 1.25rem 1rem; text-align: center; }
-    .stat .val { font-size: 1.15rem; font-weight: 500; color: #faf9f5; }
+    .stat-grid .stat { background: #f5f4ed; padding: 1.25rem 1rem; text-align: center; }
+    .stat .val { font-size: 1.15rem; font-weight: 500; color: #141413; }
     .stat .lbl { font-size: 0.7rem; color: #87867f; margin-top: 0.15rem; }
-    .cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #30302e; border-radius: 12px; overflow: hidden; margin-top: 1.5rem; }
-    .cmp-card { background: #1a1a19; padding: 2rem; }
+    .cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #e8e6dc; border-radius: 12px; overflow: hidden; margin-top: 1.5rem; }
+    .cmp-card { background: #ffffff; padding: 2rem; }
     .cmp-badge { display: inline-block; font-size: 0.7rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12px; padding: 0.25rem 0.7rem; border-radius: 100px; margin-bottom: 1rem; background: #c96442; color: #faf9f5; }
     .cmp-card p { font-size: 0.9rem; color: #87867f; line-height: 1.65; }
-    .gallery-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1px; background: #30302e; border-radius: 12px; overflow: hidden; margin-top: 2rem; }
-    .gallery-item { background: #1a1a19; aspect-ratio: 16/10; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1px; background: #e8e6dc; border-radius: 12px; overflow: hidden; margin-top: 2rem; }
+    .gallery-item { background: #ffffff; aspect-ratio: 16/10; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem; }
     .gallery-placeholder { width: 80%; height: 60%; border-radius: 8px; margin-bottom: 0.75rem; }
     .gallery-item .cap { font-size: 0.8rem; color: #87867f; }
     .quote-slide { text-align: center; justify-content: center; align-items: center; }
@@ -74,15 +74,15 @@
     .quote-attrib { margin-top: 1.5rem; color: #87867f; font-size: 0.9rem; }
     .end { text-align: center; justify-content: center; align-items: center; }
     .nav-bar { position: fixed; bottom: 2rem; right: 2rem; display: flex; gap: 0.4rem; z-index: 100; }
-    .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: #30302e; border: none; cursor: pointer; transition: background 0.2s; }
+    .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: #e8e6dc; border: none; cursor: pointer; transition: background 0.2s; }
     .nav-dot:hover { background: #87867f; }
     .toolbar { position: fixed; top: 1rem; right: 1rem; z-index: 100; display: flex; gap: 0.5rem; }
     .toolbar a {
-      display: inline-block; background: #1a1a19; border: 1px solid #30302e;
+      display: inline-block; background: #ffffff; border: 1px solid #e8e6dc;
       color: #87867f; padding: 0.4rem 0.8rem; border-radius: 6px;
       text-decoration: none; font-size: 0.75rem; transition: all 0.2s;
     }
-    .toolbar a:hover { background: #30302e; color: #faf9f5; }
+    .toolbar a:hover { background: #e8e6dc; color: #141413; }
     @media (max-width:640px) {
       .slide { padding: 2rem 1.5rem; }
       .stat-grid { grid-template-columns: repeat(2,1fr); }
@@ -171,13 +171,13 @@
   new IntersectionObserver(entries => entries.forEach(e => {
     if(e.isIntersecting) {
       const idx = Array.from(slides).indexOf(e.target);
-      dots.forEach((d,i)=>d.style.background=i===idx?'#c96442':'#30302e');
+      dots.forEach((d,i)=>d.style.background=i===idx?'#c96442':'#e8e6dc');
     }
   }),{threshold:0.6}).observe(slides[0]);
   slides.forEach(s => new IntersectionObserver(entries => entries.forEach(e => {
     if(e.isIntersecting) {
       const idx = Array.from(slides).indexOf(e.target);
-      dots.forEach((d,i)=>d.style.background=i===idx?'#c96442':'#30302e');
+      dots.forEach((d,i)=>d.style.background=i===idx?'#c96442':'#e8e6dc');
     }
   }),{threshold:0.6}).observe(s));
 </script>
