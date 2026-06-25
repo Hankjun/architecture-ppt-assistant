@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>某新城核心区城市设计 · 预览</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #141413;
+      color: #faf9f5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Layout — mimics A4 portrait at comfortable height */
+    .slide {
+      min-height: 100vh;
+      padding: 4rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      scroll-snap-align: start;
+      border-bottom: 1px solid #30302e;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .slide:last-child { border-bottom: none; }
+
+    /* Typography */
+    .slide-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12px;
+      text-transform: uppercase;
+      color: #87867f;
+      margin-bottom: 0.5rem;
+    }
+    .slide h1 {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 500;
+      line-height: 1.15;
+      color: #faf9f5;
+      margin-bottom: 0.75rem;
+    }
+    .slide h2 {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 500;
+      line-height: 1.25;
+      color: #faf9f5;
+      margin-bottom: 0.75rem;
+    }
+    .slide h3 {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: #d97757;
+      margin-bottom: 0.5rem;
+    }
+    .slide p {
+      color: #b0aea5;
+      line-height: 1.8;
+      font-size: 0.95rem;
+      max-width: 640px;
+    }
+    .slide .subtitle {
+      color: #87867f;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      max-width: 600px;
+    }
+
+    /* Cover */
+    .cover { text-align: center; }
+    .cover .meta { color: #87867f; font-size: 0.85rem; margin-top: 1.5rem; }
+    .cover .accent-line {
+      width: 40px; height: 3px; background: #c96442;
+      margin: 1.5rem auto; border-radius: 2px;
+    }
+
+    /* TOC */
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .toc-list li {
+      font-size: 1.05rem; color: #b0aea5;
+      transition: color 0.2s; cursor: default;
+    }
+    .toc-list li:hover { color: #faf9f5; }
+
+    /* Stats Grid */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: #30302e;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 2rem;
+      max-width: 600px;
+    }
+    .stat-grid .stat { background: #1a1a19; padding: 1.25rem 1rem; text-align: center; }
+    .stat .val { font-size: 1.15rem; font-weight: 500; color: #faf9f5; }
+    .stat .lbl { font-size: 0.7rem; color: #87867f; margin-top: 0.15rem; }
+
+    /* Split */
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+    .split-card {
+      background: #1a1a19;
+      border: 1px solid #30302e;
+      border-radius: 12px;
+      padding: 2rem;
+    }
+    .split-card p { font-size: 0.95rem; color: #b0aea5; line-height: 1.7; }
+
+    /* End slide */
+    .end { text-align: center; justify-content: center; align-items: center; }
+
+    /* Nav dots */
+    .nav-bar {
+      position: fixed; bottom: 2rem; right: 2rem;
+      display: flex; gap: 0.4rem; z-index: 100;
+    }
+    .nav-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #30302e; border: none; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .nav-dot:hover { background: #87867f; }
+
+    /* Toolbar */
+    .toolbar {
+      position: fixed; top: 1rem; right: 1rem; z-index: 100;
+      display: flex; gap: 0.5rem;
+    }
+    .toolbar a {
+      display: inline-block;
+      background: #1a1a19; border: 1px solid #30302e;
+      color: #b0aea5; padding: 0.4rem 0.8rem;
+      border-radius: 6px; text-decoration: none;
+      font-size: 0.75rem; transition: all 0.2s;
+    }
+    .toolbar a:hover { background: #30302e; color: #faf9f5; }
+
+    @media (max-width: 640px) {
+      .slide { padding: 2rem 1.5rem; }
+      .stat-grid { grid-template-columns: repeat(2, 1fr); }
+      .split-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="toolbar">
+  <a href="#" onclick="window.print()">打印 / 导出 PDF</a>
+  <a href="#" onclick="document.querySelector('.slide').scrollIntoView({behavior:'smooth'})">回到顶部</a>
+</div>
+
+<div class="nav-bar" id="navDots"></div>
+
+<div class="slide cover">
+  <div class="slide-label">建筑汇报方案</div>
+  <h1>某新城核心区城市设计</h1>
+  <div class="accent-line"></div>
+  <p style="font-size:1.15rem; color:#87867f;">概念规划方案汇报</p>
+  <div class="meta">某市自然资源和规划局 · 2025</div>
+</div><div class="slide">
+  <div class="slide-label">汇报框架</div>
+  <h2>汇报框架</h2>
+  <ul class="toc-list" style="margin-top:2rem;"><li>01 / 项目区位</li><li>02 / 现状分析</li><li>03 / 设计策略</li><li>04 / 总图方案</li><li>05 / 建筑分析</li><li>06 / 效果展示</li></ul>
+</div><div class="slide">
+  <div class="slide-label">第 3 页</div>
+  <h2>01 / 项目区位</h2>
+  <p class="subtitle">基地位于新城核心区，交通枢纽辐射范围 3km</p>
+  <p>项目位于新城核心区东侧，紧邻城市主干道及地铁3号线站点，周边配套完善。基地总面积约12.6公顷，现状以空地及低效工业用地为主。</p>
+  <div class="stat-grid"><div class="stat"><div class="val">12.6 ha</div><div class="lbl">基地面积</div></div><div class="stat"><div class="val">2.8</div><div class="lbl">容积率</div></div><div class="stat"><div class="val">80 m</div><div class="lbl">限高</div></div><div class="stat"><div class="val">≥ 35%</div><div class="lbl">绿地率</div></div></div>
+</div><div class="slide">
+  <div class="slide-label">第 4 页</div>
+  <h2>02 / 现状分析</h2>
+  <p class="subtitle">周边交通、景观资源与用地条件分析</p>
+  <p>基地南侧为城市主干道，东侧规划地铁站点，北侧为滨河景观带。现状以空地为主，局部有临时厂房需拆改。周边已建成高品质住宅、商业综合体及学校，城市界面良好。</p>
+  <div class="stat-grid"><div class="stat"><div class="val">60 m</div><div class="lbl">主干道</div></div><div class="stat"><div class="val">500 m</div><div class="lbl">地铁站</div></div><div class="stat"><div class="val">300 m</div><div class="lbl">滨河带</div></div><div class="stat"><div class="val">1.2 万㎡</div><div class="lbl">现状建筑</div></div></div>
+</div><div class="slide">
+  <div class="slide-label">第 5 页</div>
+  <h2>03 / 设计策略</h2>
+  <div class="split-grid">
+    <div class="split-card"><h3>策略一</h3><p>策略一：TOD 导向开发，以地铁站点为核心，形成 TOD 综合开发区，提高土地价值。</p></div>
+    <div class="split-card"><h3>策略二</h3><p>策略二：生态优先，保留滨河绿带并延伸至基地内部，构建蓝绿网络体系。</p></div>
+  </div>
+</div><div class="slide">
+  <div class="slide-label">第 6 页</div>
+  <h2>04 / 总图方案</h2>
+  <p class="subtitle">一轴两带三组团 · 功能复合的城市核心</p>
+  <p>总图以 "一轴两带三组团" 为结构：南北向城市活力轴串联各功能组团；东西两条生态绿带渗透基地；形成 TOD 综合组团、品质居住组团、滨水商业组团三大板块。</p>
+  <div class="stat-grid"><div class="stat"><div class="val">35.2 万㎡</div><div class="lbl">总建筑面积</div></div><div class="stat"><div class="val">8.6 万㎡</div><div class="lbl">商业</div></div><div class="stat"><div class="val">18.4 万㎡</div><div class="lbl">住宅</div></div><div class="stat"><div class="val">8.2 万㎡</div><div class="lbl">公建配套</div></div></div>
+</div><div class="slide">
+  <div class="slide-label">第 7 页</div>
+  <h2>05 / 建筑分析</h2>
+  <p class="subtitle">高度分区与天际线控制</p>
+  <p>建筑高度呈梯度分布：沿河及绿地周边以多层为主（≤24m），核心区布局高层（60-80m），形成"外低内高、逐级递进"的天际线节奏。裙房采用暖色石材+玻璃幕墙，塔楼以浅色铝板为主。</p>
+  <div class="stat-grid"><div class="stat"><div class="val">≤24 m</div><div class="lbl">多层区</div></div><div class="stat"><div class="val">60-80 m</div><div class="lbl">高层区</div></div><div class="stat"><div class="val">6 栋</div><div class="lbl">塔楼数量</div></div><div class="stat"><div class="val">铝板+玻璃</div><div class="lbl">立面材质</div></div></div>
+</div><div class="slide end">
+  <div class="accent-line" style="margin-bottom:1.5rem;"></div>
+  <h2>06 / 效果展示</h2>
+  <p class="subtitle" style="margin:0 auto;">感谢聆听 · 敬请指正</p>
+</div>
+
+<script>
+  // Generate nav dots
+  const slides = document.querySelectorAll('.slide');
+  const nav = document.getElementById('navDots');
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot';
+    dot.addEventListener('click', () => slides[i].scrollIntoView({ behavior: 'smooth' }));
+    nav.appendChild(dot);
+  });
+
+  // Highlight current dot
+  const dots = nav.querySelectorAll('.nav-dot');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const idx = Array.from(slides).indexOf(entry.target);
+        dots.forEach((d, i) => d.style.background = i === idx ? '#c96442' : '#30302e');
+      }
+    });
+  }, { threshold: 0.6 });
+  slides.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>客户咨询 · 建筑汇报 PPT 自动助手</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f4ed;
+      color: #141413;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid #f0eee6;
+    }
+    .header-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header a {
+      color: #5e5d59;
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
+    .header a:hover { color: #141413; }
+    .header-logo {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    .header-logo span { color: #c96442; }
+
+    /* Main */
+    main {
+      flex: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+      width: 100%;
+    }
+
+    /* Intro */
+    .intro h1 {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-weight: 500;
+      font-size: 2rem;
+      line-height: 1.25;
+      margin-bottom: 0.75rem;
+    }
+    .intro p {
+      color: #87867f;
+      line-height: 1.7;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Form */
+    .form-card {
+      background: #faf9f5;
+      border: 1px solid #f0eee6;
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin-top: 2rem;
+    }
+    .form-group {
+      margin-bottom: 1.75rem;
+    }
+    .form-group:last-child { margin-bottom: 0; }
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #141413;
+      margin-bottom: 0.4rem;
+    }
+    .form-hint {
+      font-size: 0.8rem;
+      color: #87867f;
+      margin-bottom: 0.6rem;
+      line-height: 1.4;
+    }
+
+    /* Radio / Choice buttons */
+    .choice-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .choice-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 450;
+      color: #5e5d59;
+      background: #f5f4ed;
+      border: 1px solid #f0eee6;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .choice-btn:hover {
+      border-color: #d1cfc5;
+      color: #141413;
+    }
+    .choice-btn.active {
+      background: #c96442;
+      color: #faf9f5;
+      border-color: #c96442;
+    }
+    .choice-btn input { display: none; }
+
+    /* Text Input */
+    .text-input {
+      width: 100%;
+      padding: 0.65rem 1rem;
+      border: 1px solid #f0eee6;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-family: 'Inter', sans-serif;
+      background: #f5f4ed;
+      color: #141413;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .text-input:focus {
+      border-color: #c96442;
+      box-shadow: 0 0 0 3px rgba(201,100,66,0.12);
+    }
+    .text-input::placeholder { color: #b0aea5; }
+
+    textarea.text-input {
+      min-height: 80px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    /* Submit */
+    .submit-area {
+      margin-top: 2rem;
+      text-align: center;
+    }
+    .btn-submit {
+      background: #c96442;
+      color: #faf9f5;
+      border: none;
+      padding: 0.8rem 2.5rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover { background: #b85737; }
+    .btn-submit:disabled {
+      background: #e8e6dc;
+      color: #87867f;
+      cursor: not-allowed;
+    }
+    .btn-reset {
+      background: transparent;
+      border: none;
+      color: #87867f;
+      font-size: 0.85rem;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      margin-left: 1rem;
+    }
+    .btn-reset:hover { color: #141413; }
+
+    /* Result */
+    .result-card {
+      display: none;
+      margin-top: 2rem;
+      background: #141413;
+      border-radius: 16px;
+      padding: 2.5rem;
+    }
+    .result-card.visible { display: block; }
+    .result-card h3 {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-weight: 500;
+      font-size: 1.3rem;
+      color: #faf9f5;
+      margin-bottom: 1.5rem;
+    }
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #30302e;
+    }
+    .result-row:last-child { border-bottom: none; }
+    .result-label {
+      color: #87867f;
+      font-size: 0.85rem;
+    }
+    .result-value {
+      color: #faf9f5;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+    .result-value.highlight {
+      color: #d97757;
+      font-size: 1.2rem;
+    }
+    .result-summary {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #30302e;
+      color: #b0aea5;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* Error */
+    .error-msg {
+      display: none;
+      background: #fef2f0;
+      border: 1px solid #f5d6d4;
+      color: #b53333;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      margin-top: 1rem;
+    }
+    .error-msg.visible { display: block; }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 1.5rem;
+      border-top: 1px solid #f0eee6;
+      font-size: 0.85rem;
+      color: #87867f;
+    }
+
+    @media (max-width: 600px) {
+      main { padding: 2rem 1.2rem; }
+      .form-card { padding: 1.5rem; }
+      .choice-group { gap: 0.4rem; }
+      .choice-btn { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-logo">建筑汇报<span>·</span>自动助手</div>
+    <a href="index.html">← 返回项目主页</a>
+  </div>
+</div>
+
+<main>
+  <div class="intro">
+    <h1>客户咨询</h1>
+    <p>请填写以下信息，我们将根据您的需求提供详细的报价和交付方案。</p>
+  </div>
+
+  <div class="form-card">
+    <!-- Project Type -->
+    <div class="form-group">
+      <label class="form-label">项目类型</label>
+      <div class="choice-group" data-field="projectType">
+        <label class="choice-btn"><input type="radio" name="projectType" value="urban"> 城市规划</label>
+        <label class="choice-btn"><input type="radio" name="projectType" value="architecture"> 建筑设计</label>
+        <label class="choice-btn"><input type="radio" name="projectType" value="landscape"> 景观设计</label>
+        <label class="choice-btn"><input type="radio" name="projectType" value="interior"> 室内设计</label>
+        <label class="choice-btn"><input type="radio" name="projectType" value="masterplan"> 概念方案</label>
+      </div>
+    </div>
+
+    <!-- Material Completeness -->
+    <div class="form-group">
+      <label class="form-label">资料完整度</label>
+      <div class="form-hint">客户目前提供了哪些资料？</div>
+      <div class="choice-group" data-field="materialLevel">
+        <label class="choice-btn"><input type="radio" name="materialLevel" value="low"> 仅口头需求</label>
+        <label class="choice-btn"><input type="radio" name="materialLevel" value="medium"> 部分文字 + 旧稿</label>
+        <label class="choice-btn"><input type="radio" name="materialLevel" value="high"> 文字 + 图片 + CAD</label>
+        <label class="choice-btn"><input type="radio" name="materialLevel" value="full"> 完整资料包</label>
+      </div>
+    </div>
+
+    <!-- Layout Difficulty -->
+    <div class="form-group">
+      <label class="form-label">排版难度</label>
+      <div class="form-hint">内容的复杂度和要求的精细度</div>
+      <div class="choice-group" data-field="difficulty">
+        <label class="choice-btn"><input type="radio" name="difficulty" value="simple"> 标准排版</label>
+        <label class="choice-btn"><input type="radio" name="difficulty" value="moderate"> 中等难度</label>
+        <label class="choice-btn"><input type="radio" name="difficulty" value="complex"> 复杂排版</label>
+        <label class="choice-btn"><input type="radio" name="difficulty" value="premium"> 精品定制</label>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="form-group">
+      <label class="form-label">时间要求</label>
+      <div class="choice-group" data-field="timeline">
+        <label class="choice-btn"><input type="radio" name="timeline" value="rush"> 加急（1-2天）</label>
+        <label class="choice-btn"><input type="radio" name="timeline" value="normal"> 标准（3-5天）</label>
+        <label class="choice-btn"><input type="radio" name="timeline" value="relaxed"> 宽松（5-10天）</label>
+      </div>
+    </div>
+
+    <!-- Number of Projects -->
+    <div class="form-group">
+      <label class="form-label">项目数量</label>
+      <div class="choice-group" data-field="projectCount">
+        <label class="choice-btn"><input type="radio" name="projectCount" value="1"> 1 个</label>
+        <label class="choice-btn"><input type="radio" name="projectCount" value="2"> 2-3 个</label>
+        <label class="choice-btn"><input type="radio" name="projectCount" value="3"> 3-5 个</label>
+        <label class="choice-btn"><input type="radio" name="projectCount" value="4"> 5+ 个</label>
+      </div>
+    </div>
+
+    <!-- Overturn Risk -->
+    <div class="form-group">
+      <label class="form-label">临时大改风险</label>
+      <div class="form-hint">项目过程中甲方可能要求重大调整的频率</div>
+      <div class="choice-group" data-field="overturnRisk">
+        <label class="choice-btn"><input type="radio" name="overturnRisk" value="low"> 低风险</label>
+        <label class="choice-btn"><input type="radio" name="overturnRisk" value="medium"> 中等风险</label>
+        <label class="choice-btn"><input type="radio" name="overturnRisk" value="high"> 高风险</label>
+      </div>
+    </div>
+
+    <!-- Extra Notes -->
+    <div class="form-group">
+      <label class="form-label">备注说明</label>
+      <textarea class="text-input" id="notes" placeholder="补充信息，如：项目名称、已有参考案例、特殊要求等..."></textarea>
+    </div>
+
+    <div class="submit-area">
+      <button class="btn-submit" id="btnSubmit">生成评估方案</button>
+      <button class="btn-reset" id="btnReset">重置</button>
+    </div>
+    <div class="error-msg" id="errorMsg">请填写所有必填项后再提交。</div>
+  </div>
+
+  <!-- Result -->
+  <div class="result-card" id="resultCard">
+    <h3>📋 评估结果</h3>
+    <div class="result-row">
+      <span class="result-label">预估报价</span>
+      <span class="result-value highlight" id="resultPrice">—</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">预付款（30%）</span>
+      <span class="result-value" id="resultDeposit">—</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">建议周期</span>
+      <span class="result-value" id="resultTimeline">—</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">交付路径</span>
+      <span class="result-value" id="resultPath">—</span>
+    </div>
+    <div class="result-summary" id="resultSummary"></div>
+  </div>
+</main>
+
+<div class="footer">建筑汇报 PPT 自动助手 · AI 自动化比赛参赛作品</div>
+
+<script>
+  // Radio button visual toggle — handles both label click and input change
+  document.querySelectorAll('.choice-group').forEach(group => {
+    group.querySelectorAll('.choice-btn').forEach(btn => {
+      const update = () => {
+        const groupEl = btn.closest('.choice-group');
+        groupEl.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('active'));
+        if (btn.querySelector('input').checked) btn.classList.add('active');
+      };
+      btn.addEventListener('click', function(e) {
+        // Let native label behavior check the input first, then sync UI
+        requestAnimationFrame(update);
+      });
+      btn.querySelector('input').addEventListener('change', update);
+    });
+  });
+
+  // Reset
+  document.getElementById('btnReset').addEventListener('click', () => {
+    document.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+    document.getElementById('notes').value = '';
+    document.getElementById('resultCard').classList.remove('visible');
+    document.getElementById('errorMsg').classList.remove('visible');
+  });
+
+  // Pricing engine
+  const basePrices = { simple: 800, moderate: 1500, complex: 2800, premium: 4500 };
+  const materialMultiplier = { low: 1.3, medium: 1.15, high: 1.0, full: 0.9 };
+  const timelineMultiplier = { rush: 1.5, normal: 1.0, relaxed: 0.85 };
+  const countMultiplier  = { 1: 1.0, 2: 0.85, 3: 0.7, 4: 0.55 };
+  const riskMultiplier   = { low: 1.0, medium: 1.2, high: 1.45 };
+
+  const timelineNames = {
+    rush: '加急（1-2 天）',
+    normal: '标准（3-5 天）',
+    relaxed: '宽松（5-10 天）'
+  };
+
+  function getSelected(name) {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : null;
+  }
+
+  document.getElementById('btnSubmit').addEventListener('click', () => {
+    const projectType  = getSelected('projectType');
+    const material     = getSelected('materialLevel');
+    const difficulty   = getSelected('difficulty');
+    const timeline     = getSelected('timeline');
+    const count        = getSelected('projectCount');
+    const risk         = getSelected('overturnRisk');
+
+    if (!projectType || !material || !difficulty || !timeline || !count || !risk) {
+      document.getElementById('errorMsg').classList.add('visible');
+      return;
+    }
+    document.getElementById('errorMsg').classList.remove('visible');
+
+    const base = basePrices[difficulty] || 1500;
+    let price = base;
+    price *= materialMultiplier[material] || 1.0;
+    price *= timelineMultiplier[timeline] || 1.0;
+    price *= countMultiplier[count] || 1.0;
+    price *= riskMultiplier[risk] || 1.0;
+    price = Math.round(price / 100) * 100; // round to nearest 100
+    const deposit = Math.round(price * 0.3);
+
+    const projectNames = { urban: '城市规划', architecture: '建筑设计', landscape: '景观设计', interior: '室内设计', masterplan: '概念方案' };
+
+    let path = 'HTML 预览 → 按页确认 → 导出 PDF/PPT';
+    if (risk === 'high') path = 'HTML 预览 → 逐页确认（大改预留） → 导出 PDF/PPT';
+    if (material === 'low') path = '资料梳理 → HTML 预览 → 按页确认 → 导出 PDF/PPT';
+
+    const notes = document.getElementById('notes').value.trim();
+
+    document.getElementById('resultPrice').textContent = `¥${price.toLocaleString()}`;
+    document.getElementById('resultDeposit').textContent = `¥${deposit.toLocaleString()}`;
+    document.getElementById('resultTimeline').textContent = timelineNames[timeline];
+    document.getElementById('resultPath').textContent = path;
+
+    const summaryParts = [];
+    summaryParts.push(`项目类型：${projectNames[projectType] || '待定'}`);
+    summaryParts.push(`难度评级：${({simple:'标准', moderate:'中等', complex:'复杂', premium:'精品'})[difficulty]}`);
+    summaryParts.push(`风险溢价：${({low:'标准', medium:'+20%', high:'+45%'})[risk]}`);
+    if (notes) summaryParts.push(`备注：${notes}`);
+
+    document.getElementById('resultSummary').textContent = summaryParts.join(' · ');
+
+    document.getElementById('resultCard').classList.add('visible');
+    document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+</script>
+
+</body>
+</html>

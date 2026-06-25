@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>建筑汇报 PPT 自动助手</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      color: #141413;
+      background: #f5f4ed;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.6;
+    }
+
+    /* ===== TYPOGRAPHY ===== */
+    h1, h2, h3, h4 {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-weight: 500;
+      color: #141413;
+    }
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+    h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      line-height: 1.2;
+      letter-spacing: -0.005em;
+    }
+    h3 {
+      font-size: 1.3rem;
+      line-height: 1.25;
+    }
+    p { color: #5e5d59; line-height: 1.7; font-size: 1rem; }
+    .label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12px;
+      text-transform: uppercase;
+      color: #87867f;
+      margin-bottom: 0.75rem;
+    }
+
+    /* ===== CONTAINER ===== */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ===== SECTION ===== */
+    section {
+      padding: 5rem 0;
+    }
+    section.dark {
+      background: #141413;
+    }
+    section.dark h2,
+    section.dark h3,
+    section.dark .label { color: #faf9f5; }
+    section.dark p { color: #b0aea5; }
+
+    /* ===== NAV ===== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(245, 244, 237, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid #f0eee6;
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    .nav-logo {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: #141413;
+    }
+    .nav-logo span { color: #c96442; }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #5e5d59;
+      font-size: 0.875rem;
+      font-weight: 450;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #141413; }
+    .nav-cta {
+      display: inline-block;
+      background: #e8e6dc;
+      color: #4d4c48;
+      padding: 0 14px 0 10px;
+      height: 34px;
+      line-height: 34px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      box-shadow: #e8e6dc 0 0 0 0, #d1cfc5 0 0 0 1px;
+      transition: box-shadow 0.2s;
+    }
+    .nav-cta:hover { box-shadow: #e8e6dc 0 0 0 0, #c2c0b6 0 0 0 1px; }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding: 6rem 0 4rem;
+      text-align: center;
+      position: relative;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12px;
+      text-transform: uppercase;
+      color: #87867f;
+      background: #f0eee6;
+      padding: 0.3rem 0.8rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 { max-width: 820px; margin: 0 auto 1.2rem; }
+    .hero h1 em {
+      font-style: italic;
+      color: #c96442;
+    }
+    .hero p {
+      max-width: 620px;
+      margin: 0 auto 2rem;
+      font-size: 1.125rem;
+      color: #87867f;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-block;
+      background: #c96442;
+      color: #faf9f5;
+      padding: 0.7rem 1.8rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #b85737; }
+    .btn-secondary {
+      display: inline-block;
+      background: #e8e6dc;
+      color: #4d4c48;
+      padding: 0.7rem 1.8rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      box-shadow: #e8e6dc 0 0 0 0, #d1cfc5 0 0 0 1px;
+      transition: box-shadow 0.2s;
+    }
+    .btn-secondary:hover { box-shadow: #e8e6dc 0 0 0 0, #c2c0b6 0 0 0 1px; }
+
+    /* ===== STAT ROW ===== */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: #f0eee6;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 3.5rem;
+    }
+    .stat-item {
+      background: #faf9f5;
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+    .stat-number {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 2.2rem;
+      font-weight: 500;
+      color: #141413;
+      line-height: 1.1;
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      color: #87867f;
+      margin-top: 0.3rem;
+    }
+
+    /* ===== PAIN POINTS ===== */
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1px;
+      background: #f0eee6;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 2.5rem;
+    }
+    .pain-card {
+      background: #faf9f5;
+      padding: 2rem 1.75rem;
+    }
+    .pain-icon {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 1.6rem;
+      color: #c96442;
+      margin-bottom: 0.75rem;
+      line-height: 1;
+    }
+    .pain-card h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 550;
+      color: #141413;
+      margin-bottom: 0.6rem;
+    }
+    .pain-card p {
+      font-size: 0.9rem;
+      color: #87867f;
+      line-height: 1.6;
+    }
+
+    /* ===== WORKFLOW ===== */
+    .workflow {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .workflow-step {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #faf9f5;
+      border: 1px solid #f0eee6;
+      border-radius: 100px;
+      padding: 0.6rem 1.2rem 0.6rem 0.8rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: #4d4c48;
+    }
+    .workflow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #c96442;
+      flex-shrink: 0;
+    }
+    .workflow-arrow {
+      font-size: 1.2rem;
+      color: #d1cfc5;
+    }
+
+    /* ===== DARK SECTION CONTENT ===== */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+      margin-top: 2.5rem;
+    }
+    @media (max-width: 768px) {
+      .two-col { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .feature-list li {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      font-size: 0.95rem;
+      color: #b0aea5;
+      line-height: 1.5;
+    }
+    .feature-list li::before {
+      content: "→";
+      color: #c96442;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+    .feature-list.light li { color: #5e5d59; }
+    .feature-list.light li::before { color: #c96442; }
+
+    /* ===== COMPARISON ===== */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: #f0eee6;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 2.5rem;
+    }
+    @media (max-width: 768px) {
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+    .compare-card {
+      background: #faf9f5;
+      padding: 2.5rem 2rem;
+    }
+    .compare-card.versus { background: #f5f4ed; }
+    .compare-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12px;
+      padding: 0.25rem 0.7rem;
+      border-radius: 100px;
+      margin-bottom: 1rem;
+    }
+    .badge-generic { background: #e8e6dc; color: #87867f; }
+    .badge-this { background: #c96442; color: #faf9f5; }
+    .compare-card h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 550;
+      color: #141413;
+      margin-bottom: 0.6rem;
+    }
+    .compare-card p {
+      font-size: 0.9rem;
+      color: #87867f;
+      line-height: 1.6;
+    }
+
+    /* ===== PROCESS / COLLAB ===== */
+    .collab-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: #30302e;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 2.5rem;
+    }
+    @media (max-width: 768px) {
+      .collab-grid { grid-template-columns: 1fr; }
+    }
+    .collab-card {
+      background: #1a1a19;
+      padding: 2.5rem 2rem;
+    }
+    .collab-card h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 550;
+      color: #faf9f5;
+      margin-bottom: 1.2rem;
+    }
+
+    /* ===== ROADMAP ===== */
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px;
+      background: #f0eee6;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 2.5rem;
+    }
+    .roadmap-card {
+      background: #faf9f5;
+      padding: 2rem 1.75rem;
+    }
+    .roadmap-card .label { margin-bottom: 0.5rem; }
+    .roadmap-card h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 550;
+      color: #141413;
+      margin-bottom: 0.6rem;
+    }
+    .roadmap-card p {
+      font-size: 0.9rem;
+      color: #87867f;
+      line-height: 1.6;
+    }
+    .roadmap-card .status {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+      margin-top: 0.8rem;
+    }
+    .status-now { background: #c96442; color: #faf9f5; }
+    .status-next { background: #e8e6dc; color: #4d4c48; }
+
+    /* ===== BUSINESS ===== */
+    .biz-flow {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: #f0eee6;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 2.5rem;
+    }
+    @media (max-width: 768px) {
+      .biz-flow { grid-template-columns: 1fr; }
+    }
+    .biz-card {
+      background: #faf9f5;
+      padding: 2rem 1.75rem;
+    }
+    .biz-card h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 550;
+      color: #141413;
+      margin-bottom: 0.6rem;
+    }
+    .biz-card p {
+      font-size: 0.9rem;
+      color: #87867f;
+      line-height: 1.6;
+    }
+
+    /* ===== QUOTE ===== */
+    .quote-section {
+      text-align: center;
+      padding: 5rem 0;
+    }
+    .quote-section blockquote {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      line-height: 1.6;
+      color: #4d4c48;
+      max-width: 700px;
+      margin: 0 auto;
+      font-style: italic;
+    }
+    .quote-section blockquote::before { content: "\201C"; color: #c96442; }
+    .quote-section blockquote::after { content: "\201D"; color: #c96442; }
+    .quote-attribution {
+      margin-top: 1.5rem;
+      color: #87867f;
+      font-size: 0.85rem;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      border-top: 1px solid #f0eee6;
+      padding: 2.5rem 0;
+      text-align: center;
+    }
+    footer p {
+      font-size: 0.85rem;
+      color: #87867f;
+    }
+
+    /* ===== SECTION INTRO ===== */
+    .section-intro {
+      text-align: center;
+      max-width: 620px;
+      margin: 0 auto 1rem;
+    }
+    .section-intro.left {
+      text-align: left;
+      margin: 0 0 1rem;
+    }
+    .section-intro p {
+      font-size: 1.05rem;
+      color: #87867f;
+    }
+
+    /* ===== MISC ===== */
+    .mt-2 { margin-top: 2rem; }
+    .mb-1 { margin-bottom: 1rem; }
+
+    /* ===== NUMBERED HEADING ===== */
+    .section-number {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12px;
+      color: #c96442;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <div class="container">
+    <div class="nav-logo">建筑汇报<span>·</span>自动助手</div>
+    <div class="nav-links">
+      <a href="#pain">痛点</a>
+      <a href="#workflow">方案</a>
+      <a href="#demo">Demo</a>
+      <a href="#diff">差异化</a>
+      <a href="#biz">商业</a>
+      <a href="#roadmap">规划</a>
+      <a href="consult.html" class="nav-cta">咨询页原型 →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-tag">AI 自动化比赛 · 建筑汇报场景</div>
+    <h1>
+      建筑汇报 PPT<br>
+      <em>不是一句提示词的事</em>
+    </h1>
+    <p>
+      一个人控节点的 AI 汇报生成工作流：从真实客户沟通、需求判断、<br>
+      HTML 预览到最终交付——让 AI 处理混乱，让人掌握判断权。
+    </p>
+    <div class="hero-actions">
+      <a href="preview.html" class="btn-primary">打开 Demo 演示页 →</a>
+      <a href="consult.html" class="btn-secondary">打开客户咨询页 →</a>
+    </div>
+
+    <!-- Stats -->
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="stat-number">2,597</div>
+        <div class="stat-label">PNG 参考图</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">1,532</div>
+        <div class="stat-label">JPG 参考图</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">16</div>
+        <div class="stat-label">PPTX 案例文件</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 01 / 痛点 ===== -->
+<section id="pain">
+  <div class="container">
+    <div class="section-number">01</div>
+    <h2>建筑汇报不是一句话生成</h2>
+    <p class="mb-1" style="max-width:580px; color:#87867f;">
+      难点不只是排版，而是资料、逻辑、图片、客户修改和交付边界同时混在一起。
+    </p>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon">△</div>
+        <h4>资料不完整</h4>
+        <p>客户常只给图片、旧稿、零散文字，智能体需要先判断资料能不能进入制作。</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">▽</div>
+        <h4>专业结构强</h4>
+        <p>区位、现状、策略、总图、建筑分析、效果展示都有固定表达逻辑。</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">◇</div>
+        <h4>直接生成易失控</h4>
+        <p>通用 AI PPT 可以很快，但容易漂亮而不准确，后续修改成本高。</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">○</div>
+        <h4>反复修改常态</h4>
+        <p>建筑汇报需要按页确认，保留人工判断和客户反馈记录。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 02 / 方案 ===== -->
+<section id="workflow" class="dark">
+  <div class="container">
+    <div class="section-number" style="color:#d97757;">02</div>
+    <h2>把 PPT 生产拆成可控节点</h2>
+    <p style="max-width:560px; color:#b0aea5;">
+      AI 先生成，人再确认。先做 HTML 预览，确认后再输出 PDF 或 PPT。
+    </p>
+    <div class="workflow">
+      <span class="workflow-step"><span class="workflow-dot"></span> 客户咨询</span>
+      <span class="workflow-arrow">→</span>
+      <span class="workflow-step"><span class="workflow-dot"></span> 资料盘点</span>
+      <span class="workflow-arrow">→</span>
+      <span class="workflow-step"><span class="workflow-dot"></span> 风格确认</span>
+      <span class="workflow-arrow">→</span>
+      <span class="workflow-step"><span class="workflow-dot"></span> 框架生成</span>
+      <span class="workflow-arrow">→</span>
+      <span class="workflow-step"><span class="workflow-dot"></span> HTML 预览</span>
+      <span class="workflow-arrow">→</span>
+      <span class="workflow-step"><span class="workflow-dot"></span> 按页反馈</span>
+      <span class="workflow-arrow">→</span>
+      <span class="workflow-step"><span class="workflow-dot"></span> 最终交付</span>
+    </div>
+    <p style="text-align:center; margin-top:2.5rem; font-size:0.95rem; color:#87867f;">
+      核心不是全自动，而是可确认 · 可修改 · 可复用 · 可交付
+    </p>
+  </div>
+</section>
+
+<!-- ===== 03 / 已完成 Demo ===== -->
+<section id="demo">
+  <div class="container">
+    <div class="section-number">03</div>
+    <div class="two-col">
+      <div>
+        <h2>客户咨询页原型</h2>
+        <p style="margin-top:0.75rem;">
+          把模糊客户沟通变成结构化输入，让后续智能体有稳定的起点。
+        </p>
+        <div class="feature-list light" style="margin-top:1.5rem;">
+          <li>项目类型、资料完整度、排版难度、时间要求</li>
+          <li>项目数量、临时大改风险评估</li>
+          <li>输出：预估报价、30% 预付款、建议周期、交付路径</li>
+        </div>
+        <a href="consult.html" class="btn-secondary" style="margin-top:1.5rem; display:inline-block;">打开客户咨询页原型 →</a>
+      </div>
+      <div style="background:#faf9f5; border:1px solid #f0eee6; border-radius:14px; padding:1.5rem 1.75rem;">
+        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:1rem;">
+          <span style="font-size:0.7rem; font-weight:500; letter-spacing:0.12px; text-transform:uppercase; color:#87867f;">客户咨询 · 已填写</span>
+          <span style="flex:1; height:1px; background:#f0eee6;"></span>
+          <span style="font-size:0.75rem; color:#141413; font-weight:500;">¥1,000</span>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1rem;">
+          <span style="display:inline-flex; align-items:center; gap:0.3rem; background:#e8e6dc; border-radius:6px; padding:0.3rem 0.7rem; font-size:0.75rem; color:#4d4c48;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#c96442;"></span>城市规划
+          </span>
+          <span style="display:inline-flex; align-items:center; gap:0.3rem; background:#e8e6dc; border-radius:6px; padding:0.3rem 0.7rem; font-size:0.75rem; color:#4d4c48;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#87867f;"></span>文字+图片+CAD
+          </span>
+          <span style="display:inline-flex; align-items:center; gap:0.3rem; background:#e8e6dc; border-radius:6px; padding:0.3rem 0.7rem; font-size:0.75rem; color:#4d4c48;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#d97757;"></span>中等难度
+          </span>
+          <span style="display:inline-flex; align-items:center; gap:0.3rem; background:#e8e6dc; border-radius:6px; padding:0.3rem 0.7rem; font-size:0.75rem; color:#4d4c48;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#87867f;"></span>3-5天
+          </span>
+          <span style="display:inline-flex; align-items:center; gap:0.3rem; background:#e8e6dc; border-radius:6px; padding:0.3rem 0.7rem; font-size:0.75rem; color:#4d4c48;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#87867f;"></span>1个项目
+          </span>
+          <span style="display:inline-flex; align-items:center; gap:0.3rem; background:#fef2f0; border-radius:6px; padding:0.3rem 0.7rem; font-size:0.75rem; color:#b53333;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#b53333;"></span>大改风险：中
+          </span>
+        </div>
+        <div style="background:#f5f4ed; border-radius:8px; padding:0.8rem 1rem; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:0.7rem; color:#87867f;">预估方案</div>
+            <div style="font-size:1.1rem; font-weight:500; color:#c96442;">¥1,000</div>
+          </div>
+          <div style="display:flex; gap:1.2rem;">
+            <div style="text-align:center;">
+              <div style="font-size:0.7rem; color:#87867f;">预付</div>
+              <div style="font-size:0.85rem; font-weight:500; color:#141413;">¥300</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:0.7rem; color:#87867f;">周期</div>
+              <div style="font-size:0.85rem; font-weight:500; color:#141413;">3-5天</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:0.7rem; color:#87867f;">路径</div>
+              <div style="font-size:0.85rem; font-weight:500; color:#141413;">HTML→确认→导出</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 04 / 真实项目 ===== -->
+<section>
+  <div class="container">
+    <div class="section-number">04</div>
+    <h2>用真实沟通过程验证概念</h2>
+    <p style="max-width:560px; margin-top:0.75rem;">
+      这些截图说明：建筑汇报不是虚构需求，而是从真实沟通、修改、交付中提炼出的自动化场景。
+    </p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:#f0eee6; border-radius:12px; overflow:hidden; margin-top:2.5rem;">
+      <!-- WeChat chat mockup 1 -->
+      <div style="background:#faf9f5; padding:1.5rem;">
+        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:1rem;">
+          <div style="width:28px; height:28px; border-radius:50%; background:#c96442; display:flex; align-items:center; justify-content:center; font-size:0.65rem; color:#faf9f5; font-weight:500;">客</div>
+          <div>
+            <div style="font-size:0.8rem; font-weight:500; color:#141413;">客户 · 沟通过程</div>
+            <div style="font-size:0.65rem; color:#87867f;">3天前</div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:0.6rem;">
+          <div style="max-width:80%; align-self:flex-start; background:#f5f4ed; border-radius:4px 12px 12px 12px; padding:0.5rem 0.8rem;">
+            <div style="font-size:0.8rem; color:#4d4c48; line-height:1.5;">李工，上次的规划汇报PPT客户要改，主要改区位分析那页的数据和总图的配色。</div>
+          </div>
+          <div style="max-width:80%; align-self:flex-end; background:#c96442; border-radius:12px 4px 12px 12px; padding:0.5rem 0.8rem;">
+            <div style="font-size:0.8rem; color:#faf9f5; line-height:1.5;">好的，有没有新的CAD或参考图？我更新HTML预览后您先确认。</div>
+          </div>
+          <div style="max-width:80%; align-self:flex-start; background:#f5f4ed; border-radius:4px 12px 12px 12px; padding:0.5rem 0.8rem;">
+            <div style="font-size:0.8rem; color:#4d4c48; line-height:1.5;">CAD更新了，发你网盘。另外风格想调暖一点，参考之前做的万达那个。</div>
+          </div>
+          <div style="max-width:80%; align-self:flex-end; background:#c96442; border-radius:12px 4px 12px 12px; padding:0.5rem 0.8rem;">
+            <div style="font-size:0.8rem; color:#faf9f5; line-height:1.5;">收到，我今晚出HTML预览，明早您反馈，后天交付来得及。</div>
+          </div>
+        </div>
+      </div>
+      <!-- WeChat chat mockup 2 -->
+      <div style="background:#faf9f5; padding:1.5rem;">
+        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:1rem;">
+          <div style="width:28px; height:28px; border-radius:50%; background:#4d4c48; display:flex; align-items:center; justify-content:center; font-size:0.65rem; color:#faf9f5; font-weight:500;">客</div>
+          <div>
+            <div style="font-size:0.8rem; font-weight:500; color:#141413;">客户 · 交付反馈</div>
+            <div style="font-size:0.65rem; color:#87867f;">1天前</div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:0.6rem;">
+          <div style="max-width:80%; align-self:flex-start; background:#f5f4ed; border-radius:4px 12px 12px 12px; padding:0.5rem 0.8rem;">
+            <div style="font-size:0.8rem; color:#4d4c48; line-height:1.5;">PPT收到了，效果好！区位那页新的数据表很清晰，整体风格也一致。</div>
+          </div>
+          <div style="max-width:80%; align-self:flex-start; background:#f5f4ed; border-radius:4px 12px 12px 12px; padding:0.5rem 0.8rem;">
+            <div style="font-size:0.8rem; color:#4d4c48; line-height:1.5;">客户看了很满意，说比上次快多了。下次还有两个项目找你做。</div>
+          </div>
+          <div style="max-width:80%; align-self:flex-end; background:#c96442; border-radius:12px 4px 12px 12px; padding:0.5rem 0.8rem;">
+            <div style="font-size:0.8rem; color:#faf9f5; line-height:1.5;">感谢信任！有项目随时发资料过来，流程一样的。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 05 / 资料库 ===== -->
+<section class="dark">
+  <div class="container">
+    <div class="section-number" style="color:#d97757;">05</div>
+    <h2>基于建筑资料库，不是空白生成</h2>
+    <p style="max-width:560px; margin-top:0.75rem; color:#b0aea5;">
+      精细分类的建筑素材 + 真实比赛项目资料，让每一次生成都有据可依。
+    </p>
+    <div class="two-col" style="margin-top:2.5rem;">
+      <div>
+        <h3 style="color:#faf9f5; font-family:Georgia, serif; font-size:1.3rem; margin-bottom:1rem;">比赛项目资料</h3>
+        <ul class="feature-list" style="margin-top:0.5rem;">
+          <li>比赛规则、目标思考、课程培训记录</li>
+          <li>选题评估文档、客户咨询页截图</li>
+          <li>真实项目微信沟通记录</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="color:#faf9f5; font-family:Georgia, serif; font-size:1.3rem; margin-bottom:1rem;">建筑素材库</h3>
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:0.4rem; margin-bottom:1rem;">
+          <div style="background:#30302e; border-radius:6px; aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:0.55rem; color:#87867f; text-align:center; padding:0.2rem;">总图<br>分析</div>
+          <div style="background:#30302e; border-radius:6px; aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:0.55rem; color:#87867f; text-align:center; padding:0.2rem;">现状<br>分析</div>
+          <div style="background:#30302e; border-radius:6px; aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:0.55rem; color:#87867f; text-align:center; padding:0.2rem;">业态<br>策略</div>
+          <div style="background:#30302e; border-radius:6px; aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:0.55rem; color:#87867f; text-align:center; padding:0.2rem;">建筑<br>分析</div>
+        </div>
+        <ul class="feature-list" style="margin-top:0.5rem;">
+          <li>最常用精选、总图分析、现状分析</li>
+          <li>业态与策略、建筑分析</li>
+          <li>精选项目参考、大素材库</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 05 / 协作过程 ===== -->
+<section>
+  <div class="container">
+    <div class="section-number">06</div>
+    <h2>智能体与人的分工</h2>
+    <p style="max-width:560px; margin-top:0.75rem;">
+      比赛要展示过程，不只是最终页面。这里已经沉淀了可检查的协作证据。
+    </p>
+    <div class="compare-grid" style="grid-template-columns:1fr 1fr; margin-top:2.5rem;">
+      <div class="compare-card">
+        <div class="compare-badge badge-this">智能体完成</div>
+        <ul class="feature-list light" style="gap:0.6rem;">
+          <li>项目目录搭建</li>
+          <li>资料盘点与要求提炼</li>
+          <li>SOP 生成</li>
+          <li>客户咨询页原型</li>
+        </ul>
+      </div>
+      <div class="compare-card versus">
+        <div class="compare-badge badge-this" style="background:#4d4c48;">人工确认</div>
+        <ul class="feature-list light" style="gap:0.6rem;">
+          <li>明确比赛方向</li>
+          <li>指定建筑素材库</li>
+          <li>补充真实项目截图</li>
+          <li>确认图片化展示方式</li>
+        </ul>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top:2rem; font-size:0.9rem; color:#87867f;">
+      过程文件：协作日志 · 资料盘点计划 · 自动助手 SOP · 客户咨询页原型 · Demo 演示页
+    </p>
+  </div>
+</section>
+
+<!-- ===== 06 / 差异化 ===== -->
+<section id="diff" class="dark">
+  <div class="container">
+    <div class="section-number" style="color:#d97757;">07</div>
+    <h2>和通用 AI PPT 有什么不同</h2>
+    <p style="max-width:560px; margin-top:0.75rem; color:#b0aea5;">
+      差异不是更通用，而是更懂一个具体交付场景。
+    </p>
+    <div class="compare-grid" style="margin-top:2.5rem;">
+      <div class="compare-card">
+        <div class="compare-badge badge-generic">通用 AI PPT</div>
+        <p>适合从主题快速生成普通 PPT，但不负责客户资料判断、报价边界和建筑汇报逻辑。</p>
+      </div>
+      <div class="compare-card versus">
+        <div class="compare-badge badge-this">本项目</div>
+        <p>适合资料复杂、图片多、客户反复修改的建筑汇报，强调过程可控和交付可追踪。</p>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top:2rem; font-size:1rem; color:#d97757; font-weight:450;">
+      解决的不是"能不能生成 PPT"，而是"真实客户项目怎么稳定交付"。
+    </p>
+  </div>
+</section>
+
+<!-- ===== 07 / 商业闭环 ===== -->
+<section id="biz">
+  <div class="container">
+    <div class="section-number">08</div>
+    <h2>从咨询到收款的闭环</h2>
+    <p style="max-width:560px; margin-top:0.75rem;">
+      客户咨询页把业务规则前置，帮助报价、排期和修改边界更清楚。
+    </p>
+    <div class="biz-flow" style="margin-top:2.5rem;">
+      <div class="biz-card">
+        <div class="section-number" style="margin-bottom:0.5rem;">启动前</div>
+        <p>客户填写咨询页，系统判断资料、难度、时间和项目数量。</p>
+      </div>
+      <div class="biz-card">
+        <div class="section-number" style="margin-bottom:0.5rem;">制作中</div>
+        <p>先做资料清单、框架和 HTML 预览，客户确认后再深化。</p>
+      </div>
+      <div class="biz-card">
+        <div class="section-number" style="margin-bottom:0.5rem;">交付后</div>
+        <p>输出 PDF 或 PPT，保留修改记录，便于复盘和复用。</p>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:2rem; padding:1.5rem; background:#faf9f5; border:1px solid #f0eee6; border-radius:12px;">
+      <span style="font-size:0.95rem; color:#4d4c48;">
+        收费规则：<strong>预收 30%</strong> · 加急或临时大改可 <strong>加收 50%</strong>
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 08 / 复赛规划 ===== -->
+<section id="roadmap" class="dark">
+  <div class="container">
+    <div class="section-number" style="color:#d97757;">09</div>
+    <h2>从原型走向产品</h2>
+    <p style="max-width:560px; margin-top:0.75rem; color:#b0aea5;">
+      初赛展示闭环，复赛再做更自动化的工程能力。
+    </p>
+    <div class="roadmap-grid" style="margin-top:2.5rem;">
+      <div class="roadmap-card" style="background:#1a1a19;">
+        <div class="label" style="color:#87867f;">P0 · 当前</div>
+        <h4 style="color:#faf9f5;">素材检索器</h4>
+        <p>按封面、目录、现状、策略、总图、建筑分析检索参考页。</p>
+        <div class="status status-now">进行中</div>
+      </div>
+      <div class="roadmap-card" style="background:#1a1a19;">
+        <div class="label" style="color:#87867f;">P1 · 下一阶段</div>
+        <h4 style="color:#faf9f5;">HTML 多页生成器</h4>
+        <p>根据大纲生成可预览页面，先确认再导出。</p>
+        <div class="status status-next">规划中</div>
+      </div>
+      <div class="roadmap-card" style="background:#1a1a19;">
+        <div class="label" style="color:#87867f;">P1 · 下一阶段</div>
+        <h4 style="color:#faf9f5;">反馈记录器</h4>
+        <p>按页记录客户修改意见、版本和确认状态。</p>
+        <div class="status status-next">规划中</div>
+      </div>
+      <div class="roadmap-card" style="background:#1a1a19;">
+        <div class="label" style="color:#87867f;">P2 · 后期</div>
+        <h4 style="color:#faf9f5;">导出器</h4>
+        <p>确认 HTML 后输出 PDF 或 PPT，形成正式交付物。</p>
+        <div class="status status-next">规划中</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== QUOTE ===== -->
+<section class="quote-section">
+  <div class="container">
+    <blockquote>
+      把重复、混乱、难沟通的部分交给 AI，<br>
+      把判断权和审美控制权留给人。
+    </blockquote>
+    <p class="quote-attribution">— 建筑汇报 PPT 自动助手</p>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <p>建筑汇报 PPT 自动助手 · AI 自动化比赛参赛作品</p>
+  </div>
+</footer>
+
+</body>
+</html>
